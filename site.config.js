@@ -6,9 +6,9 @@ const CONFIG = {
     role: "frontend developer",
     bio: "영주의 감자탈출 블로그",
     email: "youngju6143@gmail.com",
-    linkedin: "Youngju Jang",
+    linkedin: "0ju428",
     github: "youngju6143",
-    instagram: "@0ju_428",
+    instagram: "0ju_428",
   },
   projects: [
     {
@@ -18,15 +18,15 @@ const CONFIG = {
   ],
   // blog setting (required)
   blog: {
-    title: "morethan-log",
-    description: "welcome to morethan-log!",
-    scheme: "dark", // 'light' | 'dark' | 'system'
+    title: "0ju-log",
+    description: "welcome to 0ju-log!",
+    scheme: "system", // 'light' | 'dark' | 'system'
   },
 
   // CONFIG configration (required)
-  link: "https://morethan-log.vercel.app",
-  since: 2022, // If leave this empty, current year will be used.
-  lang: "en-US", // ['en-US', 'zh-CN', 'zh-HK', 'zh-TW', 'ja-JP', 'es-ES', 'ko-KR']
+  link: "https://0ju428-blog.vercel.app",
+  since: 2025, // If leave this empty, current year will be used.
+  lang: "ko-KR", // ['en-US', 'zh-CN', 'zh-HK', 'zh-TW', 'ja-JP', 'es-ES', 'ko-KR']
   ogImageGenerateURL: "https://og-image-korean.vercel.app", // The link to generate OG image, don't end with a slash
 
   // notion configuration (required)
