@@ -76,6 +76,6 @@ const StyledWrapper = styled.div`
   > .section {
     width: 100%;
     height: 1px;
-    background-color: #d3d3d3;
+    background-color: ${({ theme }) => theme.colors.gray6};
   }
 `
