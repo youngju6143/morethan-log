@@ -97,7 +97,7 @@ const StyledWrapper = styled(Link)`
         position: relative;
         width: 200px;
         object-fit: cover;
-        background-color: white;
+        background-color: ${({ theme }) => theme.colors.gray2};
       }
       > .wrapper {
         display: flex;
