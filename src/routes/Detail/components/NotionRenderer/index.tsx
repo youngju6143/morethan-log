@@ -89,4 +89,10 @@ const StyledWrapper = styled.div`
   .notion-list {
     width: 100%;
   }
+  .notion-divider {
+    border: 1px solid rgba(55, 53, 47, 0.16) !important;
+    border-color: var(--fg-color, #37352f);
+    border-width: 1px;
+    opacity: 0.4;
+  }
 `

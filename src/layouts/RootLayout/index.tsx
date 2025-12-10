@@ -39,10 +39,36 @@ import "prismjs/components/prism-swift.js"
 import "prismjs/components/prism-wasm.js"
 import "prismjs/components/prism-yaml.js"
 import "prismjs/components/prism-go.js"
+import { Metadata } from "next"
 
 type Props = {
   children: ReactNode
 }
+
+export const metadata: Metadata = {
+  metadataBase: new URL("https://0ju428-blog.vercel.app"),
+  title: "0ju428",
+  description: "영주의 감자탈출 블로그",
+  openGraph: {
+    title: "0ju428",
+    description: "영주의 감자탈출 블로그",
+    siteName: "영주의 감자탈출 블로그",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "0ju428",
+      },
+    ],
+    locale: "ko_KR",
+    type: "website",
+  },
+  robots: { index: true, follow: true },
+  icons: {
+    icon: "/app-icon.png",
+  },
+};
 
 const RootLayout = ({ children }: Props) => {
   const [scheme] = useScheme()
