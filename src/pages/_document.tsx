@@ -36,7 +36,7 @@ class MyDocument extends Document {
               />
             </>
           )}
-          <meta property="og:title" content="0ju428" />
+          <meta property="og:title" content="0ju-log" />
           <meta property="og:description" content="영주의 감자탈출 블로그" />
           <meta property="og:image" content="https://0ju428-blog.vercel.app/og-image.png" />
           <meta property="og:url" content="https://0ju428-blog.vercel.app" />
