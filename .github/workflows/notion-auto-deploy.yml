@@ -1,0 +1,34 @@
+name: Notion Auto Deploy
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - run: yarn add node-fetch@3
+
+      - name: Check Notion status
+        run: node scripts/check-notion.js
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          VERCEL_DEPLOY_HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+
+      - name: Update cache
+        run: |
+          git config user.name "youngju6143"
+          git config user.email "youngju6143@naver.com"
+          git add .notionsync/published.json
+          git commit -m "chore: update notion publish cache" || true
+          git push
