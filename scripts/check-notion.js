@@ -1,5 +1,6 @@
-require("dotenv").config()
-
+if (!process.env.GITHUB_ACTIONS) {
+  require("dotenv").config()
+}
 const fs = require("fs")
 const CACHE_PATH = ".notionsync/published.json"
 
