@@ -1,5 +1,6 @@
-const fs = require("fs")
+require("dotenv").config()
 
+const fs = require("fs")
 const CACHE_PATH = ".notionsync/published.json"
 
 async function run() {
@@ -17,13 +18,19 @@ async function run() {
       body: JSON.stringify({
         filter: {
           property: "status",
-          status: { equals: "Public" },
+          select: { equals: "Public" },
         },
       }),
     }
   )
 
   const data = await res.json()
+  console.log("Notion response:", data)
+
+  if (!Array.isArray(data.results)) {
+    throw new Error("Notion API response has no results")
+  }
+
   const current = data.results.map((page) => page.id)
 
   const hasNew = current.some((id) => !prev.has(id))
