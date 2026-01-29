@@ -1,5 +1,4 @@
 const fs = require("fs")
-const fetch = require("node-fetch")
 
 const CACHE_PATH = ".notionsync/published.json"
 

@@ -16,8 +16,6 @@ jobs:
         with:
           node-version: 18
 
-      - run: yarn add -D node-fetch@3
-
       - name: Check Notion status
         run: node scripts/check-notion.js
         env:
