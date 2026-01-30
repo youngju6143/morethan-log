@@ -28,7 +28,7 @@ async function run() {
   console.log("DATABASE_ID:", process.env.NOTION_DATABASE_ID)
 
   const data = await res.json()
-  console.dir(data, { depth: null })
+  // console.dir(data, { depth: null })
 
   if (!Array.isArray(data.results)) {
     console.log("No valid results from Notion API. Skip deploy.")
