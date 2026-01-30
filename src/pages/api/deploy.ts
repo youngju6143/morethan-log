@@ -8,8 +8,13 @@ export default async function handler(
     return res.status(405).end()
   }
 
-  const password = req.body?.password
-  if (!process.env.PASSWORD || password !== process.env.PASSWORD) {
+  const body = typeof req.body === "string" ? JSON.parse(req.body) : req.body
+
+  const password = body?.password
+  if (
+    !process.env.PASSWORD ||
+    password?.trim() !== process.env.PASSWORD.trim()
+  ) {
     return res.status(401).json({ ok: false })
   }
 
