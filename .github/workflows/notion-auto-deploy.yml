@@ -2,7 +2,7 @@ name: Notion Auto Deploy
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/10 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -28,8 +28,13 @@ jobs:
 
       - name: Update cache
         run: |
+          if git diff --quiet .notionsync/published.json; then
+            echo "No cache changes, skip commit"
+            exit 0
+          fi
+
           git config user.name "youngju6143"
           git config user.email "youngju6143@naver.com"
           git add .notionsync/published.json
-          git commit -m "chore: update notion publish cache" || true
+          git commit -m "chore: update notion publish cache [skip ci]"
           git push
