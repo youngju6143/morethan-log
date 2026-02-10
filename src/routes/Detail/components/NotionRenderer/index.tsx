@@ -1,9 +1,9 @@
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 import remarkGfm from "remark-gfm"
-import rehypeHighlight from "rehype-highlight"
-import { FC } from "react"
+import { FC, useEffect, useRef } from "react"
 import styled from "@emotion/styled"
+import hljs from "highlight.js"
 import "highlight.js/styles/github-dark.css"
 
 type Props = {
@@ -11,13 +11,43 @@ type Props = {
 }
 
 const NotionRenderer: FC<Props> = ({ content }) => {
+  const containerRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if (!containerRef.current) return
+    const codeBlocks = containerRef.current.querySelectorAll("pre code")
+    const raf = requestAnimationFrame(() => {
+      codeBlocks.forEach((block) => {
+        const element = block as HTMLElement
+        if (!element.classList.contains("hljs")) {
+          element.classList.add("hljs")
+        }
+        hljs.highlightElement(element)
+      })
+    })
+
+    return () => cancelAnimationFrame(raf)
+  }, [content])
+
   if (!content) return null
 
   return (
-    <StyledWrapper>
+    <StyledWrapper ref={containerRef}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeRaw, rehypeHighlight]}
+        rehypePlugins={[rehypeRaw]}
+        components={{
+          code({ className, children, ...props }) {
+            const mergedClassName = [className, "hljs"]
+              .filter(Boolean)
+              .join(" ")
+            return (
+              <code className={mergedClassName} {...props}>
+                {children}
+              </code>
+            )
+          },
+        }}
       >
         {content}
       </ReactMarkdown>

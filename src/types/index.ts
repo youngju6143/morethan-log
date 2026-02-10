@@ -21,17 +21,17 @@ export type TPost = {
   slug: string
   tags?: string[]
   category?: string[]
-  summary?: string
+  summary?: string | null
   author?: {
     id: string
     name: string
-    profile_photo?: string
+    profile_photo?: string | null
   }[]
   title: string
   status: TPostStatus[]
   createdTime: string
   fullWidth: boolean
-  thumbnail?: string
+  thumbnail?: string | null
 }
 
 export type PostDetail = TPost & {
