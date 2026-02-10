@@ -45,7 +45,6 @@ type Props = {
   children: ReactNode
 }
 
-
 const RootLayout = ({ children }: Props) => {
   const [scheme] = useScheme()
   useGtagEffect()
@@ -69,6 +68,6 @@ export default RootLayout
 const StyledMain = styled.main`
   margin: 0 auto;
   width: 100%;
-  max-width: 1120px;
+  max-width: 1280px;
   padding: 0 1rem;
 `
