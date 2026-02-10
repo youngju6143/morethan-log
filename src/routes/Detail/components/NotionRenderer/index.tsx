@@ -1,8 +1,10 @@
 import ReactMarkdown from "react-markdown"
 import rehypeRaw from "rehype-raw"
 import remarkGfm from "remark-gfm"
+import rehypeHighlight from "rehype-highlight"
 import { FC } from "react"
 import styled from "@emotion/styled"
+import "highlight.js/styles/github-dark.css"
 
 type Props = {
   content: string
@@ -13,7 +15,10 @@ const NotionRenderer: FC<Props> = ({ content }) => {
 
   return (
     <StyledWrapper>
-      <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeRaw, rehypeHighlight]}
+      >
         {content}
       </ReactMarkdown>
     </StyledWrapper>
