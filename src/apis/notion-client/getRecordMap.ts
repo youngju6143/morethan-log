@@ -116,6 +116,52 @@ const parseImageCaption = (caption: string) => {
   return { width, caption: cleaned }
 }
 
+const mapNotionImageUrl = (url: string, blockId?: string) => {
+  if (!url || !blockId) return url
+  if (url.startsWith("data:")) return url
+
+  // Unsplash images should remain direct and unproxied.
+  if (url.startsWith("https://images.unsplash.com")) return url
+
+  try {
+    const parsed = new URL(url)
+    if (
+      parsed.pathname.startsWith("/secure.notion-static.com") &&
+      parsed.hostname.endsWith(".amazonaws.com")
+    ) {
+      if (
+        parsed.searchParams.has("X-Amz-Credential") &&
+        parsed.searchParams.has("X-Amz-Signature") &&
+        parsed.searchParams.has("X-Amz-Algorithm")
+      ) {
+        // Strip signatures before proxying; signatures are time-bound.
+        url = parsed.origin + parsed.pathname
+      }
+    }
+  } catch {
+    return url
+  }
+
+  if (url.startsWith("/images")) {
+    url = `https://www.notion.so${url}`
+  }
+
+  const isNotionProxy =
+    url.startsWith("https://www.notion.so/image/") ||
+    url.startsWith("http://www.notion.so/image/")
+  const proxyBase = isNotionProxy
+    ? url
+    : `https://www.notion.so${
+        url.startsWith("/image") ? url : `/image/${encodeURIComponent(url)}`
+      }`
+  const notionImageUrl = new URL(proxyBase)
+  notionImageUrl.searchParams.set("table", "block")
+  notionImageUrl.searchParams.set("id", blockId)
+  notionImageUrl.searchParams.set("cache", "v2")
+
+  return notionImageUrl.toString()
+}
+
 type BookmarkMeta = {
   title?: string
   description?: string
@@ -251,7 +297,9 @@ n2m.setCustomTransformer("image", async (block: any) => {
     .join("")
     .trim()
   const { width, caption } = parseImageCaption(captionText || "")
-  const safeUrl = escapeHtml(url)
+  const mappedUrl =
+    image.type === "file" ? mapNotionImageUrl(url, block?.id) : url
+  const safeUrl = escapeHtml(mappedUrl)
   const safeCaption = escapeHtml(caption)
   const safeAlt = safeCaption || ""
   const widthStyle = width ? ` style=\"--notion-image-width:${width};\"` : ""
