@@ -116,7 +116,7 @@ const parseImageCaption = (caption: string) => {
   return { width, caption: cleaned }
 }
 
-const mapNotionImageUrl = (url: string, blockId?: string) => {
+export const mapNotionImageUrl = (url: string, blockId?: string) => {
   if (!url || !blockId) return url
   if (url.startsWith("data:")) return url
 
@@ -125,18 +125,19 @@ const mapNotionImageUrl = (url: string, blockId?: string) => {
 
   try {
     const parsed = new URL(url)
+    const isNotionS3 =
+      parsed.hostname.endsWith(".amazonaws.com") &&
+      (parsed.pathname.startsWith("/secure.notion-static.com") ||
+        parsed.hostname.startsWith("prod-files-secure.") ||
+        parsed.hostname.startsWith("s3.us-west-2.") ||
+        parsed.hostname.startsWith("s3-us-west-2."))
+
     if (
-      parsed.pathname.startsWith("/secure.notion-static.com") &&
-      parsed.hostname.endsWith(".amazonaws.com")
+      isNotionS3 &&
+      parsed.searchParams.has("X-Amz-Signature")
     ) {
-      if (
-        parsed.searchParams.has("X-Amz-Credential") &&
-        parsed.searchParams.has("X-Amz-Signature") &&
-        parsed.searchParams.has("X-Amz-Algorithm")
-      ) {
-        // Strip signatures before proxying; signatures are time-bound.
-        url = parsed.origin + parsed.pathname
-      }
+      // Strip signatures before proxying; signatures are time-bound.
+      url = parsed.origin + parsed.pathname
     }
   } catch {
     return url

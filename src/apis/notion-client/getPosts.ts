@@ -1,5 +1,6 @@
 import { PageObjectResponse } from "@notionhq/client"
 import { getDatabasePages } from "./notion"
+import { mapNotionImageUrl } from "./getRecordMap"
 import { TPost, TPosts, TPostStatus, TPostType } from "src/types"
 const POST_TYPES: TPostType[] = ["Post", "Paper", "Page"]
 const POST_STATUSES: TPostStatus[] = ["Private", "Public", "PublicOnDetail"]
@@ -107,13 +108,13 @@ const getFiles = (
   if (prop?.type !== "files" || !prop.files.length) return undefined
   const file = prop.files[0]
   if (file.type === "external") return file.external.url
-  return file.file.url
+  return mapNotionImageUrl(file.file.url, page.id)
 }
 
 const getCover = (page: PageObjectResponse): string | undefined => {
   if (!page.cover) return undefined
   if (page.cover.type === "external") return page.cover.external.url
-  return page.cover.file.url
+  return mapNotionImageUrl(page.cover.file.url, page.id)
 }
 
 const mapPageToPost = (page: PageObjectResponse): TPost => {
