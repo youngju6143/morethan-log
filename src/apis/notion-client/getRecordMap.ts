@@ -372,6 +372,41 @@ n2m.setCustomTransformer("column", async (block: any) => {
   return markdown.trim()
 })
 
+n2m.setCustomTransformer("video", async (block: any) => {
+  const video = block?.video
+  if (!video) return ""
+
+  const url = video.type === "external" ? video.external?.url : video.file?.url
+  if (!url) return ""
+
+  const captionText = video.caption
+    ?.map((item: any) => item.plain_text)
+    .join("")
+    .trim()
+  const safeCaption = captionText ? escapeHtml(captionText) : ""
+  const figcaption = safeCaption ? `<figcaption>${safeCaption}</figcaption>` : ""
+
+  // YouTube
+  const youtubeMatch = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/
+  )
+  if (youtubeMatch) {
+    const videoId = youtubeMatch[1]
+    return `<figure class="notion-video"><div class="notion-video-embed"><iframe src="https://www.youtube.com/embed/${videoId}" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe></div>${figcaption}</figure>`
+  }
+
+  // Vimeo
+  const vimeoMatch = url.match(/vimeo\.com\/(\d+)/)
+  if (vimeoMatch) {
+    const videoId = vimeoMatch[1]
+    return `<figure class="notion-video"><div class="notion-video-embed"><iframe src="https://player.vimeo.com/video/${videoId}" frameborder="0" allowfullscreen></iframe></div>${figcaption}</figure>`
+  }
+
+  // 직접 업로드된 파일 (mp4, webm 등)
+  const safeUrl = escapeHtml(url)
+  return `<figure class="notion-video"><video controls preload="metadata"><source src="${safeUrl}" /><a href="${safeUrl}">${safeCaption || "동영상 다운로드"}</a></video>${figcaption}</figure>`
+})
+
 export const getPageContent = async (pageId: string): Promise<string> => {
   if (!pageId) return ""
   const mdBlocks = await n2m.pageToMarkdown(pageId)

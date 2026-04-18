@@ -278,6 +278,40 @@ const StyledWrapper = styled.div`
     display: block;
   }
 
+  .notion-video {
+    margin: 1rem auto;
+    text-align: center;
+  }
+
+  .notion-video-embed {
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .notion-video-embed iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .notion-video video {
+    width: 100%;
+    max-width: 50%;
+    border-radius: 12px;
+    display: block;
+  }
+
+  .notion-video figcaption {
+    margin-top: 0.4rem;
+    font-size: 0.9rem;
+    color: ${({ theme }) => theme.colors.gray10};
+  }
+
   .notion-color-gray {
     color: #858585;
   }
