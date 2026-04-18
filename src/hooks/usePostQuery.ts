@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
-import { queryKey } from "src/constants/queryKey"
-import { PostDetail } from "src/types"
+import { queryKey } from "../constants/queryKey"
+import { PostDetail } from "../types"
 
 const usePostQuery = () => {
   const router = useRouter()

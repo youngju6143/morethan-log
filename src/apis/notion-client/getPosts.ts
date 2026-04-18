@@ -1,7 +1,7 @@
 import { PageObjectResponse } from "@notionhq/client"
 import { getDatabasePages } from "./notion"
 import { mapNotionImageUrl } from "./getRecordMap"
-import { TPost, TPosts, TPostStatus, TPostType } from "src/types"
+import { TPost, TPosts, TPostStatus, TPostType } from "../../types"
 const POST_TYPES: TPostType[] = ["Post", "Paper", "Page"]
 const POST_STATUSES: TPostStatus[] = ["Private", "Public", "PublicOnDetail"]
 

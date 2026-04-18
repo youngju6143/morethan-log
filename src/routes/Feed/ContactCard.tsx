@@ -6,8 +6,8 @@ import {
   AiOutlineInstagram,
   AiOutlineMail,
 } from "react-icons/ai"
-import { CONFIG } from "site.config"
-import { Emoji } from "src/components/Emoji"
+import { CONFIG } from "../../../site.config"
+import { Emoji } from "../../components/Emoji"
 
 const ContactCard: React.FC = () => {
   return (

@@ -1,6 +1,6 @@
 import Link from "next/link"
-import { CONFIG } from "site.config"
-import { formatDate } from "src/libs/utils"
+import { CONFIG } from "../../../../site.config"
+import { formatDate } from "../../../libs/utils"
 import Tag from "../../../components/Tag"
 import { TPost } from "../../../types"
 import Image from "next/image"
