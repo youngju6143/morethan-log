@@ -403,8 +403,12 @@ n2m.setCustomTransformer("video", async (block: any) => {
   }
 
   // 직접 업로드된 파일 (mp4, webm 등)
-  const safeUrl = escapeHtml(url)
-  return `<figure class="notion-video"><video controls preload="metadata"><source src="${safeUrl}" /><a href="${safeUrl}">${safeCaption || "동영상 다운로드"}</a></video>${figcaption}</figure>`
+  // 서명 URL은 1시간 후 만료되므로, 재생 시 실시간으로 새 URL을 받아오는 API 라우트를 사용
+  const videoSrc =
+    video.type === "file"
+      ? `/api/notion-video?blockId=${encodeURIComponent(block.id)}`
+      : escapeHtml(url)
+  return `<figure class="notion-video"><video controls preload="metadata"><source src="${videoSrc}" /></video>${figcaption}</figure>`
 })
 
 export const getPageContent = async (pageId: string): Promise<string> => {
